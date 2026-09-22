@@ -18,18 +18,23 @@ const index = async (req, res) => {
         const [posts] = await db.query(
             'SELECT * FROM posts ORDEN BY id DESC'
         );
-
-        res.render('post/index', {
-
+        console.log(posts);
+        res.render('posts/index', {
+            posts
         });
 
     } catch (error) {
-
+            console.log(error)
     }
     
 
 }
 
-const creat = async (req, res) => {
+const create = async (req, res) => {
 
 }
+
+module.exports = {
+    index,
+    create
+};
