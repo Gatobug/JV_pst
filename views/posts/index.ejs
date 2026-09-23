@@ -1,8 +1,13 @@
 <h1>Index con todos los posts</h1>
 
-<% posts.forEach (posts => { %>
+<br>
+<a href="/posts/create"> Crear post</a>
+<br>
+
+<% posts.forEach (post => { %>
     <%= post.id%>
     <%= post.title %>
     <%= post.body%>
     <br>
 <% }) %>
+
