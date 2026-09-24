@@ -63,8 +63,37 @@ const store = async (req, res) => {
     
 };
 
+const show = async (res, rep) => {
+    try {
+        const { id } = req.params;
+
+        const [post] = await db.query(
+            'SELECT * FROM posts where id = ?',
+            [id]
+
+        );
+        
+        //Validar
+
+        if (posts.length === 0) {
+            return res.status(404).send('Post no encontrado.')
+        }
+
+        res.render('/posts/show', {
+            post: post[0]
+        } 
+        );
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error en el servidor');
+    };
+};
+
 module.exports = {
     index,
     create,
-    store
+    store,
+    show
 };

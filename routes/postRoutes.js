@@ -10,4 +10,7 @@ router.get('/create', postController.create);
 
 router.post('/create', postController.store);
 
+// Ver post
+router.get('/:id', postController.show) //Todo lo que viene de un formalario que en REQ.BODY y lo que viene de una URL en REQ.PARAMS
+
 module.exports = router;
