@@ -1,0 +1,12 @@
+<h1>Editar</h1>
+<br>
+<form action="/posts/<%= churro.id%>/edit" method="">
+
+    <label for="">Titulos</label>
+    <input type="text" name="title" value="<%= churro.title%>">
+    <label>Mensaje</label>
+    <textarea  name="body" rows="6"><%= churro.title%></textarea>
+
+    <button type="submit">Actualizar</button>
+    <a href="/posts"</a>
+</form>

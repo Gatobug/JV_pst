@@ -32,7 +32,7 @@ const index = async (req, res) => {
 }
 
 
-// Cuando usar async y await, cuando sea una consulta de datos o procesar datos y sin nada cuando sea sin consulta
+// Cuando usar async y await, cuando sea una consulta de datos o procesar datos, y sin nada cuando sea sin consulta
 const create = (req, res) => {
     res.render('posts/create');
 }
@@ -40,7 +40,7 @@ const create = (req, res) => {
 const store = async (req, res) => {
 
     try {
-        const { title, body } = req.body;
+        const { title, body } = req.body; // Sacar datos de un formulario
         
         // Validamos
         if (!title || !body) {
@@ -63,11 +63,11 @@ const store = async (req, res) => {
     
 };
 
-const show = async (res, rep) => {
+const show = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const [post] = await db.query(
+        const [posts] = await db.query(
             'SELECT * FROM posts where id = ?',
             [id]
 
@@ -79,8 +79,8 @@ const show = async (res, rep) => {
             return res.status(404).send('Post no encontrado.')
         }
 
-        res.render('/posts/show', {
-            post: post[0]
+        res.render('posts/show', {
+            post: posts[0]
         } 
         );
 
@@ -91,9 +91,54 @@ const show = async (res, rep) => {
     };
 };
 
+const edit = async (req, res) => { // Todo lo que viene de una URL se GUARDA EN REQ.PARAMS. TODO LO QUE VIENE DE UN FORMULARIO SE GUARDA REQ.BODY
+    try {
+        const { id } = req.params;
+
+        const [post] = await db.query (
+            'SELECT * FROM posts WHERE id = ?'
+            [id]
+        );
+
+        if (post.length === 0) {
+            return res.status(404).send('Post no encontrado');
+        }
+
+        res.render('posts/edit', {
+            churro: posts[0]
+        })
+    } catch (error) {
+
+    }
+}
+
+const update = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const { title, body } = req.body;
+
+        if (!title || !body) {
+            console.log('Faltan campos.')
+        }
+
+        await db.query (
+            'UPDATE posts SET title = ?, body = ? WHERE id = ?'
+            [title, body, id]
+        )
+
+        res.redirect('/posts');
+
+    }   catch (error) {
+
+    }
+}
+
 module.exports = {
     index,
     create,
     store,
-    show
+    show,
+    edit,
+    update
 };
